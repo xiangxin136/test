@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3D轮播图</title>
+	<style>
+	*{margin:0px;margin:0px;}
+	#list{
+		top-top:200px;
+		height:360px;
+		/*background:yellow;*/
+		margin:120px auto;
+		-webkit-perspective:1000px;
+	}
+	#list li{
+		height:360px;
+		list-style:none;
+		/*position:relative;*/
+		float:left;
+		-webkit-transform:translateZ(-180px) rotateY(0deg); 
+		-webkit-transform-style:preserve-3D;
+
+	}
+	#list li div{
+		
+		height:360px;
+		/*?\border:1px red solid;*/
+		position:absolute;
+	}
+	#list li div:nth-child(1){
+		background-image:url('./imges/2.jpg');
+		top:-360px;
+		-webkit-transform-origin:bottom; 
+		-webkit-transform:translateZ(180px) rotateX(90deg); 
+	}
+	#list li div:nth-child(2){
+		-webkit-transform-origin:top;
+		-webkit-transform:translateZ(180px) rotateX(-90deg); 
+		background-image:url('./imges/2.jpg');
+		top:360px;
+	}
+	#list li div:nth-child(3){
+		-webkit-transform-origin:right;
+		-webkit-transform:translateZ(180px) rotateY(-90deg); 
+		/*background:pink;
+		left:-40px;*/
+	}
+	#list li div:nth-child(4){
+		-webkit-transform-origin:left;
+		-webkit-transform:translateZ(180px) rotateY(90deg); 
+		/*background:#ccc;*/
+		left:30px;
+	}
+	#list li div:nth-child(5){	
+		background-image:url('./imges/5.jpg');
+		-webkit-transform:translateZ(180px) rotateY(0deg); 
+	}
+	#list li div:nth-child(6){
+		-webkit-transform:translateZ(-180px) rotateY(0deg);
+		/*-webkit-transform:translateZ(-180px) rotateY(0deg);*/
+		background-image:url('./imges/4.jpg');
+	}
+	#list li.hover1{
+	-webkit-transform:translateZ(-180px) rotateX(0deg);
+	}
+	#list li.hover2{
+	-webkit-transform:translateZ(-180px) rotateX(90deg);
+	}
+	#list li.hover3{
+	-webkit-transform:translateZ(-180px) rotateX(180deg);
+	}
+	#list li.hover4{
+	-webkit-transform:translateZ(-180px) rotateX(270deg);
+	}
+	</style>
+</head>
+<body>
+<canvas id="canvas">
+	
+</canvas>
+	<script>
+	var canvas = document.getElementById('canvas');
+	var can = canvas.getContext("2d");
+	var s = window.screen;
+	var w = canvas.width = s.width;
+	var h = canvas.height = s.height;
+	var words = Array(256).join('1').split('');
+	function draw(){
+		can.fillStyle = 'rgba(0,0,0,0.03)';
+		can.fillRect(0,0,w,h);
+		can.fillStyle = color3();
+		words.map(function (y,n){
+			text =String.fromCharCode(65+Math.ceil(Math.random()*58));
+			x = n*10;
+			can.fillText(text,x,y);
+			words[n] = (y>758+Math.random()*484)?0:y+10;
+		});
+	}
+	setInterval(draw,50);
+
+	// 获取随机的颜色代码
+	function color1(){
+		var colors =[0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'];
+		var color='';
+		for (var i = 0; i < 6; i++) {
+			var n = Math.ceil(Math.random()*15);
+			color += '' +colors[n];
+			if (i==5) {
+				return '#'+color;
+			}
+		}	
+	}
+
+	function color2() {
+		var color = Math.ceil(Math.random()*16777215).toString(16);
+		while(color.length<6){
+			color +='0'+color;
+		}
+		return '#'+color;
+	}
+	function color3(){
+		return '#'+(function (color){
+			return new Array(7-color.length).join('0')+color;
+		})((Math.random()*0x1000000<<0).toString(16))
+	}
+  console.log(color1());
+	</script>
+</body>
+</html>
